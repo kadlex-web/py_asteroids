@@ -1,6 +1,8 @@
 import pygame # type: ignore
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     pygame.init()
@@ -16,7 +18,12 @@ def main():
     Player.containers = (updateable, drawable)
     player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
 
-    print(drawable)
+    asteroids = pygame.sprite.Group()
+    Asteroid.containers = (asteroids, updateable, drawable)
+
+    AsteroidField.containers = (updateable, )
+    asteroid_field = AsteroidField()
+
     # Begins the game loop, draws a black screen based on the screen width and screen height constants.
     # Allows you to quit out
     while True:
@@ -24,10 +31,12 @@ def main():
             if event.type == pygame.QUIT:
                 return
         dt = clock.tick(60)/1000
-        screen.fill("black")
+
         # Two loops using the newly defined pygame.sprite.Group objects to update and draw all objects in the group
         for obj in updateable:
             obj.update(dt)
+        screen.fill("black")
+
         for obj in drawable:
             obj.draw(screen)
 
