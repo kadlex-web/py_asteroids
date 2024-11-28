@@ -1,26 +1,36 @@
-# this allows us to use code from
-# the open-source pygame library
-# throughout this file
 import pygame # type: ignore
 from constants import *
 from player import Player
 
 def main():
     pygame.init()
-
+    # Creates the screen, clock, and dt variable (delta time)
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
-    player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
     dt = 0
-    # Begins the game loop, draws a black screen based on the screen width and screen height constants
+    # Creates two groups, one for updateable objects, the other for drawable objects
+    # We place our Player class into both of those containers
+    # We then define our player object
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updateable, drawable)
+    player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
+
+    print(drawable)
+    # Begins the game loop, draws a black screen based on the screen width and screen height constants.
+    # Allows you to quit out
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         dt = clock.tick(60)/1000
         screen.fill("black")
-        player.update(dt)
-        player.draw(screen)
+        # Two loops using the newly defined pygame.sprite.Group objects to update and draw all objects in the group
+        for obj in updateable:
+            obj.update(dt)
+        for obj in drawable:
+            obj.draw(screen)
+
         pygame.display.flip()
 
 if __name__ == "__main__":
