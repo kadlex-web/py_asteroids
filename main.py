@@ -1,4 +1,5 @@
 import pygame # type: ignore
+import sys
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -35,7 +36,13 @@ def main():
         # Two loops using the newly defined pygame.sprite.Group objects to update and draw all objects in the group
         for obj in updateable:
             obj.update(dt)
+
         screen.fill("black")
+
+        for obj in asteroids:
+            if player.is_colliding(obj):
+                print("Game over!")
+                sys.exit()
 
         for obj in drawable:
             obj.draw(screen)
