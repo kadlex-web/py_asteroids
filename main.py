@@ -4,6 +4,7 @@ from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     pygame.init()
@@ -20,10 +21,13 @@ def main():
     player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
 
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     Asteroid.containers = (asteroids, updateable, drawable)
 
     AsteroidField.containers = (updateable, )
     asteroid_field = AsteroidField()
+
+    Shot.containers = (shots, updateable, drawable)
 
     # Begins the game loop, draws a black screen based on the screen width and screen height constants.
     # Allows you to quit out
