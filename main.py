@@ -42,11 +42,18 @@ def main():
             obj.update(dt)
 
         screen.fill("black")
-
+        # Check if player hits asteroid
         for obj in asteroids:
             if player.is_colliding(obj):
                 print("Game over!")
                 sys.exit()
+
+        # Check if shot hits an asteroid        
+        for obj in asteroids:
+            for shot in shots:
+                if shot.is_colliding(obj):
+                    shot.kill()
+                    obj.kill()
 
         for obj in drawable:
             obj.draw(screen)
